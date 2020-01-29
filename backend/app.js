@@ -2,20 +2,32 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const MongoClient = require('mongodb').MongoClient;
+const cors = require("cors");
 
 const postsRoutes = require("./routes/posts");
 const userRoutes = require("./routes/user");
 
 const app = express();
+app.use(cors());
+
+const uri = "mongodb://user:pwd@127.0.0.1:27017/test";
+
+/*
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+client.connect(err => {
+  const collection = client.db("test").collection("User");
+  // perform actions on the collection object
+  client.close();
+});
+*/
 
 mongoose
   .connect(
-   "mongodb://localhost:27017/mydb"
-   /* "mongodb+srv://max:" +
-      process.env.MONGO_ATLAS_PW +
-      "@cluster0-ntrwp.mongodb.net/node-angular"
-   */
-  )
+   uri
+  , {useNewUrlParser: true}
+  , { useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to database!");
   })
