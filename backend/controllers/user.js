@@ -27,8 +27,10 @@ exports.createUser = (req, res, next) => {
 
 exports.userLogin = (req, res, next) => {
   let fetchedUser;
+console.log(req.body.email);
   User.findOne({ email: req.body.email })
     .then(user => {
+console.log("User:" + user);
       if (!user) {
         return res.status(401).json({
           message: "Auth failed"
@@ -38,6 +40,7 @@ exports.userLogin = (req, res, next) => {
       return bcrypt.compare(req.body.password, user.password);
     })
     .then(result => {
+console.log("Result:" + result);
       if (!result) {
         return res.status(401).json({
           message: "Auth failed"
@@ -45,7 +48,7 @@ exports.userLogin = (req, res, next) => {
       }
       const token = jwt.sign(
         { email: fetchedUser.email, userId: fetchedUser._id },
-        process.env.JWT_KEY,
+        "XzTHSzsRvbZjqP03xcxuObXO6uHYiMZNcg5JLqVUDjAj3QBdcXyxvg4z9HFtlm8",
         { expiresIn: "1h" }
       );
       res.status(200).json({

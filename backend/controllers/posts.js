@@ -2,12 +2,14 @@ const Post = require("../models/post");
 
 exports.createPost = (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
+console.log(url);
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
     imagePath: url + "/images/" + req.file.filename,
     creator: req.userData.userId
   });
+console.log("Prepared post:" + post);
   post
     .save()
     .then(createdPost => {
@@ -20,6 +22,7 @@ exports.createPost = (req, res, next) => {
       });
     })
     .catch(error => {
+console.log("Error:" + error);
       res.status(500).json({
         message: "Creating a post failed!"
       });
@@ -48,6 +51,7 @@ exports.updatePost = (req, res, next) => {
       }
     })
     .catch(error => {
+console.log("Error:" + error);
       res.status(500).json({
         message: "Couldn't udpate post!"
       });
@@ -75,6 +79,7 @@ exports.getPosts = (req, res, next) => {
       });
     })
     .catch(error => {
+console.log("Error:" + error);
       res.status(500).json({
         message: "Fetching posts failed!"
       });
@@ -91,6 +96,7 @@ exports.getPost = (req, res, next) => {
       }
     })
     .catch(error => {
+console.log("Error:" + error);
       res.status(500).json({
         message: "Fetching post failed!"
       });
@@ -108,6 +114,7 @@ exports.deletePost = (req, res, next) => {
       }
     })
     .catch(error => {
+console.log("Error:" + error);
       res.status(500).json({
         message: "Deleting posts failed!"
       });
