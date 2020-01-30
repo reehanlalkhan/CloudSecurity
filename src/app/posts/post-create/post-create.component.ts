@@ -86,6 +86,7 @@ export class PostCreateComponent implements OnInit, OnDestroy {
 
   onSavePost() {
     if (this.form.invalid) {
+      alert("All fields are mandatory, please fill all the fields");
       return;
     }
     this.isLoading = true;
